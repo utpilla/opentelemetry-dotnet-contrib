@@ -1050,6 +1050,32 @@ public class GenevaLogExporterTests
         }
     }
 
+    [Fact]
+    public void TLDLogExporter_Success_Windows()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            using var loggerFactory = LoggerFactory.Create(builder => builder
+            .AddOpenTelemetry(loggerOptions =>
+            {
+                loggerOptions.AddGenevaLogExporter(exporterOptions =>
+                {
+                    exporterOptions.ConnectionString = "EtwTldSession=OpenTelemetry";
+                    exporterOptions.PrepopulatedFields = new Dictionary<string, object>
+                    {
+                        ["cloud.role"] = "BusyWorker",
+                        ["cloud.roleInstance"] = "CY1SCH030021417",
+                        ["cloud.roleVer"] = "9.0.15289.2",
+                    };
+                });
+            }));
+
+            var logger = loggerFactory.CreateLogger<GenevaLogExporterTests>();
+
+            logger.LogInformation("Hello from {food} {price}.", "artichoke", 3.99);
+        }
+    }
+
     private static string GenerateTempFilePath()
     {
         while (true)

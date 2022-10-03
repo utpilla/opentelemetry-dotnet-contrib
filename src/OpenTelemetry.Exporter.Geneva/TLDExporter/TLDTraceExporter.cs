@@ -157,7 +157,7 @@ internal sealed class TLDTraceExporter : TLDExporter, IDisposable
         }
         catch (Exception ex)
         {
-            ExporterEventSource.Log.ExporterException("GenevaTraceExporter Dispose failed.", ex);
+            ExporterEventSource.Log.ExporterException("TLDTraceExporter Dispose failed.", ex);
         }
 
         this.isDisposed = true;
