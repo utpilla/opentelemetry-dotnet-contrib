@@ -1092,7 +1092,7 @@ public class GenevaMetricExporterTests
             var userData = data.Body as UserdataV2;
             fields = userData.Fields;
 
-            var valueSection = fields.FirstOrDefault(field => field.Type == PayloadTypes.ExtAggregatedUint64Value).Value as ExtAggregatedUint64ValueV2;
+            var valueSection = fields.FirstOrDefault(field => field.Type == PayloadTypes.ExtAggregatedDoubleValue).Value as ExtAggregatedDoubleValueV2;
             var valueCountPairs = fields.FirstOrDefault(field => field.Type == PayloadTypes.HistogramUint64ValueCountPairs).Value as HistogramValueCountPairs;
 
             int listIterator = 0;
@@ -1113,7 +1113,7 @@ public class GenevaMetricExporterTests
             Assert.Equal(bucketsWithPositiveCount, valueCountPairs.DistributionSize);
 
             Assert.Equal(count, valueSection.Count);
-            Assert.Equal(Convert.ToUInt64(metricPoint.GetHistogramSum()), valueSection.Sum);
+            Assert.Equal(metricPoint.GetHistogramSum(), valueSection.Sum);
             Assert.Equal(min, valueSection.Min);
             Assert.Equal(max, valueSection.Max);
             Assert.Equal((ulong)metricPoint.EndTime.ToFileTime(), valueSection.Timestamp);

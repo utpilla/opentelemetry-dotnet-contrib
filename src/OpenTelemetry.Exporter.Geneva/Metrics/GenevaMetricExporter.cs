@@ -220,7 +220,7 @@ public class GenevaMetricExporter : BaseExporter<Metric>
 
                         case MetricType.Histogram:
                             {
-                                var sum = Convert.ToUInt64(metricPoint.GetHistogramSum());
+                                var sum = metricPoint.GetHistogramSum();
                                 var count = Convert.ToUInt32(metricPoint.GetHistogramCount());
                                 if (!metricPoint.TryGetHistogramMinMaxValues(out double min, out double max))
                                 {
@@ -577,7 +577,7 @@ public class GenevaMetricExporter : BaseExporter<Metric>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void SerializeHistogramMetricData(HistogramBuckets buckets, double sum, uint count, double min, double max, long timestamp, byte[] buffer, ref int bufferIndex)
     {
-        MetricSerializer.SerializeByte(buffer, ref bufferIndex, (byte)PayloadType.ExternallyAggregatedULongDistributionMetric);
+        MetricSerializer.SerializeByte(buffer, ref bufferIndex, (byte)PayloadType.ExternallyAggregatedDoubleDistributionMetric);
 
         // Get a placeholder to add the payloadType length
         int payloadTypeStartIndex = bufferIndex;
@@ -587,9 +587,9 @@ public class GenevaMetricExporter : BaseExporter<Metric>
         MetricSerializer.SerializeUInt32(buffer, ref bufferIndex, count); // histogram count
         MetricSerializer.SerializeUInt32(buffer, ref bufferIndex, 0); // padding
         MetricSerializer.SerializeUInt64(buffer, ref bufferIndex, (ulong)timestamp); // timestamp
-        MetricSerializer.SerializeUInt64(buffer, ref bufferIndex, Convert.ToUInt64(sum)); // histogram sum
-        MetricSerializer.SerializeUInt64(buffer, ref bufferIndex, Convert.ToUInt64(min)); // histogram min
-        MetricSerializer.SerializeUInt64(buffer, ref bufferIndex, Convert.ToUInt64(max)); // histogram max
+        MetricSerializer.SerializeFloat64(buffer, ref bufferIndex, sum); // histogram sum
+        MetricSerializer.SerializeFloat64(buffer, ref bufferIndex, min); // histogram min
+        MetricSerializer.SerializeFloat64(buffer, ref bufferIndex, max); // histogram max
 
         var payloadTypeLength = (ushort)(bufferIndex - payloadTypeStartIndex - 2);
         MetricSerializer.SerializeUInt16(buffer, ref payloadTypeStartIndex, payloadTypeLength);

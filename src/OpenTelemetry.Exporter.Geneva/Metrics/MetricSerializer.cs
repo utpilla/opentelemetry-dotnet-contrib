@@ -394,7 +394,7 @@ internal enum PayloadType
     Dimensions = 4,
     ULongMetric = 5,
     DoubleMetric = 6,
-    ExternallyAggregatedULongDistributionMetric = 8,
+    ExternallyAggregatedDoubleDistributionMetric = 9,
     HistogramULongValueCountPairs = 12,
     Exemplars = 15,
 }
