@@ -1093,7 +1093,7 @@ public class GenevaMetricExporterTests
             fields = userData.Fields;
 
             var valueSection = fields.FirstOrDefault(field => field.Type == PayloadTypes.ExtAggregatedDoubleValue).Value as ExtAggregatedDoubleValueV2;
-            var valueCountPairs = fields.FirstOrDefault(field => field.Type == PayloadTypes.HistogramUint64ValueCountPairs).Value as HistogramValueCountPairs;
+            var valueCountPairs = fields.FirstOrDefault(field => field.Type == PayloadTypes.HistogramDoubleScaledToUint64ValueCountPairs).Value as HistogramValueCountPairs;
 
             int listIterator = 0;
             int bucketsWithPositiveCount = 0;

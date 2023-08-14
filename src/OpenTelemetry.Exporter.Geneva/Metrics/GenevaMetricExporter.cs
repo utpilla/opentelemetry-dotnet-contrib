@@ -595,7 +595,7 @@ public class GenevaMetricExporter : BaseExporter<Metric>
         MetricSerializer.SerializeUInt16(buffer, ref payloadTypeStartIndex, payloadTypeLength);
 
         // Serialize histogram buckets as value-count pairs
-        MetricSerializer.SerializeByte(buffer, ref bufferIndex, (byte)PayloadType.HistogramULongValueCountPairs);
+        MetricSerializer.SerializeByte(buffer, ref bufferIndex, (byte)PayloadType.HistogramDoubleScaledToULongValueCountPairs);
 
         // Get a placeholder to add the payloadType length
         payloadTypeStartIndex = bufferIndex;
